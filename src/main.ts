@@ -1,6 +1,6 @@
 import "reflect-metadata"
 import express from "express"
-import { AppDataSource } from "./db/data-source"
+import AppDataSource from "./db/data-source"
 
 const app = express()
 const PORT = process.env.PORT || 3000
