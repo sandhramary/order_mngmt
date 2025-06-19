@@ -1,10 +1,11 @@
 {
   "name": "order-mngmt",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "main": "src/main.ts",
   "scripts": {
-    "start": "ts-node src/main.ts",
-    "dev": "nodemon src/main.ts"
+   "dev": "nodemon",
+    "start": "node --loader ts-node/esm src/main.ts"
   },
   "author": "",
   "license": "ISC",
