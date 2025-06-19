@@ -2,7 +2,6 @@
   "name": "order-mngmt",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "ts-node src/main.ts",
     "dev": "nodemon src/main.ts"
