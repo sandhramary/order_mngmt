@@ -3,11 +3,15 @@ import express from "express";
 
 import AppDataSource from "./db/data-source.js";
 import productRouter from "../src/routers/product.js";
+import cartRouter from "../src/routers/cart.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+
 app.use(productRouter);
+app.use(cartRouter);
 
 AppDataSource.initialize()
   .then(() => {
