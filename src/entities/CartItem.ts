@@ -5,8 +5,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Cart } from "./cart";
-import { Product } from "./product";
+import { Cart } from "./Cart.js";
+import { Product } from "./Product.js";
 
 @Entity()
 export class CartItem {

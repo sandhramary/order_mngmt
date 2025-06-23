@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "./user";
+import { User } from "./User.js";
 
 @Entity()
 export class Cart {

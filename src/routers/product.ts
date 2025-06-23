@@ -1,6 +1,6 @@
 import express from "express";
 import AppDataSource from "../db/data-source.js";
-import { Product } from "../entities/product.js";
+import { Product } from "../entities/Product.js";
 import { Between, ILike } from "typeorm";
 
 const router = express.Router();
