@@ -19,7 +19,10 @@ router.get("/cart/:userId", async (req, res) => {
       relations: ["cartItems", "cartItems.product"],
     });
 
-    if (!cart) res.status(404).send();
+    if (!cart) {
+      res.status(404).send();
+      return;
+    }
 
     res.send(cart);
   } catch (e) {
@@ -51,6 +54,11 @@ router.post("/cart/:id", async (req, res) => {
         return;
       }
 
+      if (product.stock < quantity) {
+        res.status(400).send({ error: "Quantity exceeds stock" });
+        return;
+      }
+
       // Check if its an existing cart
       const existingCart = await cartRepo.findOne({
         where: { user: { id: Number(userId) } },
@@ -65,6 +73,10 @@ router.post("/cart/:id", async (req, res) => {
         });
 
         if (existingCartItem) {
+          if (product.stock < quantity + existingCartItem?.quantity) {
+            res.status(400).send({ error: "Quantity exceeds stock" });
+            return;
+          }
           existingCartItem.quantity += quantity;
           await cartItemRepo.save(existingCartItem);
         } else {
@@ -124,9 +136,23 @@ router.patch("/cart/:cartId/:itemId", async (req, res) => {
     const productId = req.params.itemId;
     const allowedField = "quantity";
 
+    const productRepo = AppDataSource.getRepository(Product);
+    const product = await productRepo.findOneBy({ id: Number(productId) });
+
+    if (!product) {
+      res.status(400).send({ error: "Invalid product or quantity" });
+      return;
+    }
+
     // Check for invalid quantity
     if (req?.body?.quantity < 0) {
       res.status(400).send({ error: "Quantity must be positive" });
+      return;
+    }
+
+    if (req?.body?.quantity > product?.stock) {
+      res.status(400).send({ error: "Quantity exceeds stock" });
+      return;
     }
 
     // Check for invalid updates
