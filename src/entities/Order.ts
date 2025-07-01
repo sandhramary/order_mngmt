@@ -21,11 +21,14 @@ export class Order {
   @JoinColumn({ name: "userId" })
   user: User;
 
-  @OneToMany("OrderItem", "order")
+  @OneToMany("OrderItem", "order", { cascade: true })
   orderItems: OrderItem[];
 
   @Column("varchar", { default: "pending" })
-  status: string;
+  status: "pending" | "success" | "failed";
+
+  @Column("varchar", { default: "cart" })
+  orderType: "cart" | "buy-now";
 
   @Column("decimal", { nullable: false })
   totalAmount: number;
