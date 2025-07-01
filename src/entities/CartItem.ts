@@ -13,7 +13,7 @@ export class CartItem {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne("Cart")
+  @ManyToOne("Cart", { onDelete: 'CASCADE' })
   @JoinColumn({ name: "cartId" })
   cart: Cart;
 
