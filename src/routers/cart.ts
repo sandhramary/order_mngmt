@@ -4,7 +4,7 @@ import { Cart } from "../entities/Cart.js";
 import { CartItem } from "../entities/CartItem.js";
 import { User } from "../entities/User.js";
 import { error } from "console";
-import { Product } from "../products/product.entity.js";
+import { Product } from "../product/product.entity.js";
 
 const router = express.Router();
 

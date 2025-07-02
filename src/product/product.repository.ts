@@ -10,7 +10,7 @@ export const productRepository = {
 
     const productRepo = AppDataSource.getRepository(Product);
 
-    return await productRepo.find({
+    return productRepo.find({
       where: [
         {
           price: Between(

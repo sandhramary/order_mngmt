@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 
 import { Order } from "./Order.js";
-import { Product } from "../products/product.entity.js";
+import { Product } from "../product/product.entity.js";
 
 @Entity()
 export class OrderItem {

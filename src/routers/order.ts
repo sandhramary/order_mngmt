@@ -3,7 +3,7 @@ import express from "express";
 import AppDataSource from "../db/data-source.js";
 import { Order } from "../entities/Order.js";
 import { Cart } from "../entities/Cart.js";
-import { Product } from "../products/product.entity.js";
+import { Product } from "../product/product.entity.js";
 
 const router = express.Router();
 

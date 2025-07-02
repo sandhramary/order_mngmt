@@ -3,6 +3,6 @@ import { productRepository } from "./product.repository.js"
 
 export const productService = {
     async getProducts(query: ProductQueryDto) {
-        return await productRepository.getProducts(query)
+        return productRepository.getProducts(query)
     }
 }
