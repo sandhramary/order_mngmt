@@ -23,10 +23,10 @@ export class Product {
   @Column("int", { default: 0 })
   stock: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: "timestamptz" })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: "timestamptz" })
   updatedAt: Date;
   
 }

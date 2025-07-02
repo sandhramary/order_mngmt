@@ -25,7 +25,7 @@ export class Order {
   orderItems: OrderItem[];
 
   @Column("varchar", { default: "pending" })
-  status: "pending" | "success" | "failed";
+  status: "pending" | "success" | "failed" | "discard";
 
   @Column("varchar", { default: "cart" })
   orderType: "cart" | "buy-now";
@@ -33,9 +33,9 @@ export class Order {
   @Column("decimal", { nullable: false })
   totalAmount: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: "timestamptz" })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: "timestamptz" })
   updatedAt: Date;
 }

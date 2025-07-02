@@ -4,6 +4,7 @@ import express from "express";
 import AppDataSource from "./db/data-source.js";
 import productRouter from "../src/routers/product.js";
 import cartRouter from "../src/routers/cart.js";
+import orderRouter from "../src/routers/order.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use(productRouter);
 app.use(cartRouter);
+app.use(orderRouter);
 
 AppDataSource.initialize()
   .then(() => {
