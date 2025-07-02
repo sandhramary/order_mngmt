@@ -6,8 +6,8 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { Product } from "./Product.js";
 import { Order } from "./Order.js";
+import { Product } from "../products/product.entity.js";
 
 @Entity()
 export class OrderItem {

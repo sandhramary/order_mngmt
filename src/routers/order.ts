@@ -3,7 +3,7 @@ import express from "express";
 import AppDataSource from "../db/data-source.js";
 import { Order } from "../entities/Order.js";
 import { Cart } from "../entities/Cart.js";
-import { Product } from "../entities/Product.js";
+import { Product } from "../products/product.entity.js";
 
 const router = express.Router();
 
@@ -36,13 +36,6 @@ router.post("/order/checkout/:userId", async (req, res) => {
 
       const isExpired = now - createdAtTime > 15 * 60 * 1000; // Order is discarded after 15 mins
 
-
-      console.log(
-        new Date(),
-        existingOrder.createdAt,
-        isExpired,
-        "times"
-      );
       if (!isExpired) {
         res
           .status(400)
@@ -122,10 +115,19 @@ router.post("/order/buy-now/:userId", async (req, res) => {
     });
 
     if (existingOrder) {
-      res
-        .status(400)
-        .send({ error: "An active order already exists for this user" });
-      return;
+      const createdAtTime = new Date(existingOrder.createdAt).getTime();
+      const now = Date.now();
+
+      const isExpired = now - createdAtTime > 15 * 60 * 1000; // Order is discarded after 15 mins
+
+      if (!isExpired) {
+        res
+          .status(400)
+          .send({ error: "An active order already exists for this user" });
+        return;
+      }
+      existingOrder.status = "discard";
+      await orderRepo.save(existingOrder);
     }
 
     // Buy product

@@ -3,8 +3,8 @@ import AppDataSource from "../db/data-source.js";
 import { Cart } from "../entities/Cart.js";
 import { CartItem } from "../entities/CartItem.js";
 import { User } from "../entities/User.js";
-import { Product } from "../entities/Product.js";
 import { error } from "console";
+import { Product } from "../products/product.entity.js";
 
 const router = express.Router();
 

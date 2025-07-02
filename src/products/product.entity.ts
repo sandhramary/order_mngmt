@@ -28,5 +28,4 @@ export class Product {
 
   @UpdateDateColumn({ type: "timestamptz" })
   updatedAt: Date;
-  
 }
