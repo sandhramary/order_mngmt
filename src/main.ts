@@ -4,7 +4,7 @@ import express from "express";
 import AppDataSource from "./db/data-source.js";
 import cartRouter from "../src/routers/cart.js";
 import orderRouter from "../src/routers/order.js";
-import productRouter from './product/product.controller.js'
+import productRouter from './product/product.routes.js'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
