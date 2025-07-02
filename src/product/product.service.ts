@@ -1,8 +1,18 @@
-import { ProductQueryDto } from "./product.dto.js"
-import { productRepository } from "./product.repository.js"
+import { ProductQueryDto } from "./product.dto.js";
+import { ProductRepository } from "./product.repository.js";
 
-export const productService = {
-    async getProducts(query: ProductQueryDto) {
-        return productRepository.getProducts(query)
-    }
+export class ProductService {
+  constructor(private readonly productRepository = new ProductRepository()) {}
+
+  async getProducts(query: ProductQueryDto) {
+    const parsedQuery = {
+      min: Number(query.min ?? 0),
+      max: Number(query.max ?? Number.MAX_SAFE_INTEGER),
+      searchKey: query.searchKey ?? "",
+      limit: Math.min(Number(query.limit ?? 20), 100),
+      offset: Number(query.offset ?? 0),
+    };
+
+    return this.productRepository.getProducts(parsedQuery);
+  }
 }
