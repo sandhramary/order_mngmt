@@ -2,7 +2,7 @@ import { Between, ILike } from "typeorm";
 
 import AppDataSource from "../db/data-source.js";
 import { Product } from "./product.entity.js";
-import { ProductFilters } from "./product.type.js";
+import { ProductFilters } from "./product.types.js";
 
 export class ProductRepository {
   async getProducts(query: ProductFilters) {

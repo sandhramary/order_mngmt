@@ -1,8 +1,8 @@
-import { ProductQueryDto } from "./product.dto.js";
 import { ProductRepository } from "./product.repository.js";
+import { ProductQueryDto } from "./product.types.js";
 
 export class ProductService {
-  constructor(private readonly productRepository = new ProductRepository()) {}
+  constructor(private readonly productRepository: ProductRepository) {}
 
   async getProducts(query: ProductQueryDto) {
     const parsedQuery = {

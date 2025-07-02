@@ -5,3 +5,11 @@ export interface ProductQueryDto {
   offset?: string;
   searchKey?: string;
 }
+
+export interface ProductFilters {
+  min: number;
+  max: number;
+  limit: number;
+  offset: number;
+  searchKey: string;
+}

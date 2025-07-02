@@ -1,21 +1,18 @@
-import express from "express";
+import { Request, Response } from "express";
 
 import { ProductService } from "./product.service.js";
-import { ProductQueryDto } from "./product.dto.js";
+import { ProductQueryDto } from "./product.types.js";
 
-const router = express.Router();
+export class ProductController {
+  constructor(private readonly productService: ProductService) {}
 
-const productService = new ProductService();
-
-router.get("/products", async (req, res) => {
-  try {
-    const products = await productService.getProducts(
-      req.query as ProductQueryDto
-    );
-    res.send(products);
-  } catch {
-    res.status(500).send();
+  async getProducts(req: Request, res: Response) {
+    try {
+      const query = req.query as ProductQueryDto;
+      const products = await this.productService.getProducts(query);
+      res.send(products);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch products" });
+    }
   }
-});
-
-export default router;
+}
