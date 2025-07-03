@@ -1,6 +1,6 @@
 import AppDataSource from "../db/data-source.js";
-import { Cart } from "../entities/Cart.js";
-import { CartItem } from "../entities/CartItem.js";
+import { Cart } from "./cart.entity.js";
+import { CartItem } from "./cartItem.entity.js";
 
 export class CartRepository {
   private cartRepo = AppDataSource.getRepository(Cart);

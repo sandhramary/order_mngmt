@@ -5,7 +5,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Cart } from "./Cart.js";
+
+import { Cart } from "./cart.entity.js";
 import { Product } from "../product/product.entity.js";
 
 @Entity()
@@ -13,7 +14,7 @@ export class CartItem {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne("Cart", { onDelete: 'CASCADE' })
+  @ManyToOne("Cart", { onDelete: "CASCADE" })
   @JoinColumn({ name: "cartId" })
   cart: Cart;
 
