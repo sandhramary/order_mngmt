@@ -25,4 +25,9 @@ export class ProductRepository {
       take: limit,
     });
   }
+
+  async getProductById(productId: number) {
+    const productRepo = AppDataSource.getRepository(Product);
+    return productRepo.findOneBy({ id: productId });
+  }
 }

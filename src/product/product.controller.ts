@@ -12,7 +12,7 @@ export class ProductController {
       const products = await this.productService.getProducts(query);
       res.send(products);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch products" });
+      res.status(500).send({ error: "Failed to fetch products" });
     }
   }
 }
