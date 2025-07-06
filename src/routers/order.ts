@@ -2,8 +2,8 @@ import express from "express";
 
 import AppDataSource from "../db/data-source.js";
 import { Order } from "../entities/Order.js";
-import { Cart } from "../entities/Cart.js";
 import { Product } from "../product/product.entity.js";
+import { Cart } from "../cart/cart.entity.js";
 
 const router = express.Router();
 
