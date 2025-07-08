@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-import { User } from "../entities/User.js";
 import { CartItem } from "./cartItem.entity.js";
+import { User } from "../user/user.entity.js";
 
 @Entity()
 export class Cart {
