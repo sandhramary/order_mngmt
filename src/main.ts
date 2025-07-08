@@ -3,7 +3,7 @@ import express from "express";
 
 import AppDataSource from "./db/data-source.js";
 import cartRouter from "./cart/cart.routes.js";
-import orderRouter from "../src/routers/order.js";
+import orderRouter from "./order/order.routes.js";
 import productRouter from "./product/product.routes.js";
 
 const app = express();

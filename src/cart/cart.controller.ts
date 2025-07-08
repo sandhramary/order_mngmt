@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 
 import { CartService } from "./cart.service.js";
-import { error } from "console";
 import { CartUpdateDto } from "./cart.types.js";
 
 export class CartController {
