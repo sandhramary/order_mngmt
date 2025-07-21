@@ -19,7 +19,7 @@ export class Cart {
   @OneToMany("CartItem", "cart")
   cartItems: CartItem[];
 
-  @ManyToOne("User")
+  @ManyToOne("User", { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user: User;
 

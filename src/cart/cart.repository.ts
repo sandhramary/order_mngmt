@@ -65,7 +65,6 @@ export class CartRepository {
 
   async deleteCartItem(cartId: number, productId: number) {
     const cartItemToDelete = await this.findCartItem(cartId, productId);
-    console.log(cartItemToDelete, "item to delete");
     if (cartItemToDelete) {
       return this.cartItemRepo.remove(cartItemToDelete);
     }

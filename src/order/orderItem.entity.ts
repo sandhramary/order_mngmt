@@ -20,7 +20,7 @@ export class OrderItem {
   @Column("decimal", { nullable: false })
   priceAtPurchase: number;
 
-  @ManyToOne("Order")
+  @ManyToOne("Order", { onDelete: "CASCADE" })
   @JoinColumn({ name: "orderId" })
   order: Order;
 

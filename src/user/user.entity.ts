@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import jwt from "jsonwebtoken";
 
 @Entity()
 export class User {
@@ -25,4 +26,13 @@ export class User {
 
   @UpdateDateColumn({ type: "timestamptz" })
   updatedAt: Date;
+
+  generateAuthToken() {
+    const token = jwt.sign(
+      { userId: this.id, emailId: this.emailId },
+      process.env.JWT_SECRET!,
+      { expiresIn: "7d" }
+    );
+    return token;
+  }
 }

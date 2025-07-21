@@ -7,7 +7,7 @@ const AppDataSource = new DataSource({
   username: "postgres",
   password: "postgres",
   database: "orderdb",
-  entities: ["src/entities/*.ts", "src/**/*.entity.ts"],
+  entities: ["src/**/*.entity.ts"],
   migrations: ["src/migrations/*.ts"],
   synchronize: false,
   logging: true,
