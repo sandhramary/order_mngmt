@@ -26,7 +26,8 @@ export class UserController {
 
     try {
       const newUser = await this.userService.createUser(req.body);
-      res.send(newUser);
+      const token = newUser?.generateAuthToken();
+      res.send({ ...newUser, token });
     } catch {
       res.status(500).send();
     }
@@ -41,7 +42,8 @@ export class UserController {
     }
     try {
       const user = await this.userService.userLogin(email, password);
-      res.send(user);
+      const token = user?.generateAuthToken();
+      res.send({ ...user, token });
     } catch {
       res.status(500).send();
     }

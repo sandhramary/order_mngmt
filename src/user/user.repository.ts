@@ -15,7 +15,6 @@ export class UserRepository {
       name: userBody.name,
       password: userBody.password,
     });
-    console.log(user);
     if (user) return this.userRepo.save(user);
     return null;
   }
