@@ -69,7 +69,12 @@ export class CartService {
     }
   }
 
-  async updateCartItem(cartId: string, productId: string, body: CartUpdateDto) {
+  async updateCartItem(
+    cartId: string,
+    productId: string,
+    userId: number,
+    body: CartUpdateDto
+  ) {
     const parsedCartId = Number(cartId);
     const parsedProductId = Number(productId);
 
@@ -89,6 +94,13 @@ export class CartService {
     // Check for invalid quantity
     if (body?.quantity < 0) throw Error("Quantity must be positive");
     if (body?.quantity > product?.stock) throw Error("Quantity exceeds stock");
+
+    // Check for valid user cart
+    const userCart = await this.cartRepository.findCartByIdAndUserId(
+      parsedCartId,
+      userId
+    );
+    if (!userCart) throw Error("Unauthorised");
 
     // Valid updates
     const existingCartItem = await this.cartRepository.findCartItem(
@@ -112,9 +124,22 @@ export class CartService {
     throw Error("Invalid cart");
   }
 
-  async deleteCartItem(cartId: string, productId: string) {
+  async deleteUserCart(userId: number) {
+    const deleteCart = await this.cartRepository.deleteUserCart(userId);
+    if (deleteCart) return deleteCart;
+    throw Error("Invalid cart");
+  }
+
+  async deleteCartItem(cartId: string, productId: string, userId: number) {
     const parsedCartId = Number(cartId);
     const parsedProductId = Number(productId);
+
+    // Check for valid user cart
+    const userCart = await this.cartRepository.findCartByIdAndUserId(
+      parsedCartId,
+      userId
+    );
+    if (!userCart) throw Error("Unauthorised");
 
     const deletedCartItem = await this.cartRepository.deleteCartItem(
       parsedCartId,

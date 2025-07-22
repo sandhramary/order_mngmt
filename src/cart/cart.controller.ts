@@ -6,13 +6,13 @@ import { CartUpdateDto } from "./cart.types.js";
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
-  async getUserCart(req: Request, res: Response) {
+  async getUserCart(req: any, res: Response) {
     try {
-      const { userId } = req.params;
+      const userId = req.user.id;
       const cart = await this.cartService.getUserCart(userId);
 
       if (!cart) {
-        res.status(404).send();
+        res.status(404).send({error: "Cart not found"});
         return;
       }
       res.send(cart);
@@ -22,9 +22,9 @@ export class CartController {
     }
   }
 
-  async addCartItem(req: Request, res: Response) {
+  async addCartItem(req: any, res: Response) {
     try {
-      const { userId } = req.params;
+      const userId = req.user.id;
       const { productId, quantity } = req.body || {};
 
       if (!productId || !quantity) {
@@ -43,7 +43,7 @@ export class CartController {
     }
   }
 
-  async updateCartItem(req: Request, res: Response) {
+  async updateCartItem(req: any, res: Response) {
     try {
       const { cartId, productId } = req.params;
       if (!cartId || !productId) {
@@ -53,6 +53,7 @@ export class CartController {
       const updatedCart = await this.cartService.updateCartItem(
         cartId,
         productId,
+        req.user.id,
         req.body as CartUpdateDto
       );
       res.send(updatedCart);
@@ -61,28 +62,23 @@ export class CartController {
     }
   }
 
-  async deleteCartItem(req: Request, res: Response) {
+  async deleteCartItem(req: any, res: Response) {
     try {
       const { cartId, productId } = req.params;
       if (!cartId || !productId) {
         res.status(400).send({ error: "Invalid input" });
         return;
       }
-      await this.cartService.deleteCartItem(cartId, productId);
+      await this.cartService.deleteCartItem(cartId, productId,  req.user.id,);
       res.send("Cart item deleted successfully");
     } catch {
       res.status(500).send({ error: "Failed to delete item from cart" });
     }
   }
 
-  async deleteCart(req: Request, res: Response) {
+  async deleteUserCart(req: any, res: Response) {
     try {
-      const { cartId } = req.params;
-      if (!cartId) {
-        res.status(400).send({ error: "No valid cart id" });
-        return;
-      }
-      await this.cartService.deleteCart(cartId);
+      await this.cartService.deleteUserCart(req.user.id);
       res.send("Cart deleted successfully");
     } catch {
       res.status(500).send({ error: "Failed to delete cart" });

@@ -18,12 +18,18 @@ export class CartRepository {
       where: {
         cart: { id: cartId },
         product: { id: productId },
-      }
+      },
     });
   }
 
   async findCartById(cartId: number) {
     return this.cartRepo.findOneBy({ id: cartId });
+  }
+
+  async findCartByIdAndUserId(cartId: number, userId: number) {
+    return this.cartRepo.findOne({
+      where: { id: cartId, user: { id: userId } },
+    });
   }
 
   async findCartItemById(cartItemId: number) {
@@ -57,6 +63,14 @@ export class CartRepository {
 
   async deleteCart(cartId: number) {
     const cartToDelete = await this.findCartById(cartId);
+    if (cartToDelete) {
+      return this.cartRepo.remove(cartToDelete);
+    }
+    return null;
+  }
+
+  async deleteUserCart(userId: number) {
+    const cartToDelete = await this.getUserCart(userId);
     if (cartToDelete) {
       return this.cartRepo.remove(cartToDelete);
     }
