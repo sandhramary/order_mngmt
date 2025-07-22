@@ -3,6 +3,7 @@ import { Router } from "express";
 import { UserController } from "./user.controller.js";
 import { UserService } from "./user.service.js";
 import { UserRepository } from "./user.repository.js";
+import { auth } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -16,11 +17,11 @@ router.post("/users/login", async (req, res) =>
   userController.userLogin(req, res)
 );
 
-router.get("/users/profile/:userId", async (req, res) =>
+router.get("/users/profile", auth, async (req, res) =>
   userController.getUser(req, res)
 );
 
-router.delete("/users/me", async (req, res) =>
+router.delete("/users", auth, async (req, res) =>
   userController.deleteUser(req, res)
 );
 

@@ -35,4 +35,9 @@ export class User {
     );
     return token;
   }
+
+  toJSON() {
+    const { password, ...userWithoutPassword } = this;
+    return userWithoutPassword;
+  }
 }

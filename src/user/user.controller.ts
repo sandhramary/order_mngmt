@@ -49,8 +49,8 @@ export class UserController {
     }
   }
 
-  async getUser(req: Request, res: Response) {
-    const { userId } = req.params;
+  async getUser(req: any, res: Response) {
+    const userId = req.user.id;
     try {
       const user = await this.userService.getUser(userId);
       if (user) {
@@ -63,8 +63,8 @@ export class UserController {
     }
   }
 
-  async deleteUser(req: Request, res: Response) {
-    const { userId } = req.params;
+  async deleteUser(req: any, res: Response) {
+    const userId = req.user.id;
     try {
       const isSuccess = await this.userService.deleteUser(userId);
       if (isSuccess) {
