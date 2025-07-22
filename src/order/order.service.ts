@@ -10,21 +10,18 @@ export class OrderService {
     private readonly productRepository: ProductRepository
   ) {}
 
-  async getOrders(userId: string, status?: string) {
-    const parsedUserId = Number(userId);
+  async getOrders(userId: number, status?: string) {
     const filteredStatus = status as OrderStatus | undefined;
-    return this.orderRepository.getOrders(parsedUserId, filteredStatus);
+    return this.orderRepository.getOrders(userId, filteredStatus);
   }
 
-  async getOrderById(userId: string, orderId: string) {
-    const parsedUserId = Number(userId);
+  async getOrderById(userId: number, orderId: string) {
     const parsedOrderId = Number(orderId);
-    return this.orderRepository.getOrderById(parsedUserId, parsedOrderId);
+    return this.orderRepository.getOrderById(userId, parsedOrderId);
   }
 
-  async orderCheckout(userId: string) {
-    const parsedUserId = Number(userId);
-    const cart = await this.cartRepository.getUserCart(parsedUserId);
+  async orderCheckout(userId: number) {
+    const cart = await this.cartRepository.getUserCart(userId);
 
     // CASE: No cart
     if (!cart || !cart.cartItems.length) {
@@ -33,7 +30,7 @@ export class OrderService {
 
     // CASE: Existing active order
     const existingOrders = await this.orderRepository.getOrders(
-      parsedUserId,
+      userId,
       "pending"
     );
     if (existingOrders?.length > 0) {
@@ -69,15 +66,14 @@ export class OrderService {
 
     if (orderItems?.length > 0) {
       return this.orderRepository.orderCheckout(
-        parsedUserId,
+        userId,
         orderItems,
         total
       );
     }
   }
 
-  async buyNow(userId: string, productId: string, quantity: number) {
-    const parsedUserId = Number(userId);
+  async buyNow(userId: number, productId: string, quantity: number) {
     const parsedProductId = Number(productId);
 
     // Validate product and its stock
@@ -90,7 +86,7 @@ export class OrderService {
 
     // CASE: Existing active order
     const existingOrders = await this.orderRepository.getOrders(
-      parsedUserId,
+      userId,
       "pending"
     );
     if (existingOrders?.length > 0) {
@@ -107,20 +103,19 @@ export class OrderService {
     }
 
     // Buy product
-    return this.orderRepository.buyNow(parsedUserId, product, quantity);
+    return this.orderRepository.buyNow(userId, product, quantity);
   }
 
-  async orderSuccess(userId: string, orderId: string) {
-    const parsedUserId = Number(userId);
+  async orderSuccess(userId: number, orderId: string) {
     const parsedOrderId = Number(orderId);
 
-    const order = await this.orderRepository.getOrderById(parsedOrderId);
+    const order = await this.orderRepository.getOrderById(parsedOrderId, userId);
     if (!order || order.status !== "pending") {
       throw Error("Invalid order");
     }
 
     if (order.orderType === "cart") {
-      const existingCart = await this.cartRepository.getUserCart(parsedUserId);
+      const existingCart = await this.cartRepository.getUserCart(userId);
       if (existingCart) await this.cartRepository.deleteCart(existingCart.id);
     }
 
@@ -137,11 +132,10 @@ export class OrderService {
     return this.orderRepository.updateOrderStatus(parsedOrderId, "success");
   }
 
-  async orderFailure(userId: string, orderId: string) {
-    const parsedUserId = Number(userId);
+  async orderFailure(userId: number, orderId: string) {
     const parsedOrderId = Number(orderId);
 
-    const order = await this.orderRepository.getOrderById(parsedOrderId);
+    const order = await this.orderRepository.getOrderById(parsedOrderId, userId);
     if (!order || order.status !== "pending") {
       throw Error("Invalid order");
     }
@@ -149,11 +143,11 @@ export class OrderService {
     return this.orderRepository.updateOrderStatus(parsedOrderId, "failed");
   }
 
-  async orderExpire(userId: string, orderId: string) {
+  async orderExpire(userId: number, orderId: string) {
     const parsedUserId = Number(userId);
     const parsedOrderId = Number(orderId);
 
-    const order = await this.orderRepository.getOrderById(parsedOrderId);
+    const order = await this.orderRepository.getOrderById(parsedOrderId, userId);
     if (!order || order.status !== "pending") {
       throw Error("Invalid order");
     }
